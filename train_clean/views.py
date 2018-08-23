@@ -13,17 +13,26 @@ def index(request):
     for line in lines:
         trains_data = []
         for train in line.trains.all():
-            last_front_record = train.records.filter(clean_front=True).order_by('-clean_date')[0]
-            last_side_record = train.records.filter(clean_front=False).order_by('-clean_date')[0]
+            last_front_record = None
+            last_side_record = None
+            front_queryset = train.records.filter(clean_front=True).order_by('-clean_date')
+            if front_queryset.exists():
+                last_front_record = front_queryset[0]
+            side_queryset = train.records.filter(clean_front=False).order_by('-clean_date')
+            if side_queryset.exists():
+                last_side_record = side_queryset[0]
+            today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
             trains_data.append(
                 {
                     "number": train.number,
-                    "clean_front_date": last_front_record.clean_date.strftime("%Y-%m-%d"),
-                    "clean_side_date": last_side_record.clean_date.strftime("%Y-%m-%d"),
-                    "clean_front_days_passed": int(
-                        (datetime.now()-last_front_record.clean_date) / timedelta(days=1)),
-                    "clean_side_days_passed": int(
-                        (datetime.now() - last_side_record.clean_date) / timedelta(days=1)),
+                    "clean_front_date": last_front_record.clean_date.strftime("%Y-%m-%d") if last_front_record else "",
+                    "clean_side_date": last_side_record.clean_date.strftime("%Y-%m-%d") if last_side_record else "",
+                    "clean_front_days_passed":
+                        int((today-last_front_record.clean_date.replace(hour=0, minute=0, second=0, microsecond=0))
+                            / timedelta(days=1)) if last_front_record else 0,
+                    "clean_side_days_passed":
+                        int((today-last_side_record.clean_date.replace(hour=0, minute=0, second=0, microsecond=0))
+                            / timedelta(days=1)) if last_side_record else 0,
                 }
             )
 
