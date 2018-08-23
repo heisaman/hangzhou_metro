@@ -1,3 +1,7 @@
 .DS_Store
 .idea
 venv
+*.pyc
+db.sqlite3
+__pycache__
+nohup.out
