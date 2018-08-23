@@ -2136,7 +2136,7 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
 }
 
 .form-check {
-  margin-top: .5rem;
+  margin-top: 1rem;
 }
 
 .form-check .form-check-label {

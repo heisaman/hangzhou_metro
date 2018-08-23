@@ -19,21 +19,6 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{% static 'train_clean/demo/demo.css' %}" rel="stylesheet" />
   <script src="{% static 'train_clean/js/core/jquery.min.js' %}"></script>
-  <script>
-    $(document).ready(function() {
-      $( "#line" ).change(function() {
-        $.post("{% url 'line_trains' %}", { line: this.value }, function(data) {
-          console.log( data );
-          $( "#train" ).find('option').remove();
-          for(i=0;i<data.length;i++){
-            $( "#train" ).append($("<option></option>").attr("value", data[i].id).text(data[i].number));
-          }
-        });
-
-      });
-
-    });
-  </script>
 </head>
 
 <body class="">

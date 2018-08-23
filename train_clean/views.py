@@ -8,7 +8,7 @@ from .models import Line, Train, CleanRecords
 
 
 def index(request):
-    lines = Line.objects.all()
+    lines = Line.objects.all().order_by('name')
     line_trains_list = []
     for line in lines:
         trains_data = []

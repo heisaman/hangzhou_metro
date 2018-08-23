@@ -56,15 +56,15 @@
         <div class="header text-center">
           <h2 class="title">电客车清洗管理系统</h2>
           <p class="category">Handcrafted by our friend
-            <a target="_blank" href="https://github.com/mouse0270">翟辉春</a>. Please checkout the
-            <a href="#" target="_blank">full documentation.</a>
+            <a target="_blank" href="#">翟辉春</a>.
           </p>
         </div>
       </div>
       <div class="content">
+        {% for line_data in line_trains_list %}
         <div class="row">
-          {% for line_data in line_trains_list %}
-          <div class="col-md-6">
+          <div class="col-md-1"></div>
+          <div class="col-md-10">
             <div class="card">
               <div class="card-header">
                 <h4 class="card-title">{{ line_data.name }}</h4>
@@ -72,12 +72,12 @@
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table">
-                    <thead class=" text-primary">
-                      <th>车体号</th>
-                      <th>端洗时间</th>
-                      <th>侧洗时间</th>
-                      <th class="text-right">未端洗天数</th>
-                      <th class="text-right">未侧洗天数</th>
+                    <thead class="text-primary">
+                      <th class="text-center">车体号</th>
+                      <th class="text-center">端洗时间</th>
+                      <th class="text-center">侧洗时间</th>
+                      <th class="text-center">未端洗天数</th>
+                      <th class="text-center">未侧洗天数</th>
                     </thead>
                     <tbody>
                       {% for train_data in line_data.trains_data %}
@@ -95,12 +95,8 @@
               </div>
             </div>
           </div>
-          {% if forloop.counter|divisibleby:2 %}
-          </div>
-          <div class="row">
-          {% endif %}
-          {% endfor %}
         </div>
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -109,10 +105,6 @@
   <script src="{% static 'train_clean/js/core/popper.min.js' %}"></script>
   <script src="{% static 'train_clean/js/core/bootstrap.min.js' %}"></script>
   <script src="{% static 'train_clean/js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
-  <!--  Google Maps Plugin    -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-  <!-- Chart JS -->
-  <script src="{% static 'train_clean/js/plugins/chartjs.min.js' %}"></script>
   <!--  Notifications Plugin    -->
   <script src="{% static 'train_clean/js/plugins/bootstrap-notify.js' %}"></script>
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
