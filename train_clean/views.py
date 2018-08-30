@@ -12,7 +12,7 @@ def index(request):
     line_trains_list = []
     for line in lines:
         trains_data = []
-        for train in line.trains.all():
+        for train in line.trains.all().order_by("number"):
             last_front_record = None
             last_side_record = None
             front_queryset = train.records.filter(clean_front=True).order_by('-clean_date')
@@ -59,9 +59,11 @@ def line_trains(request):
 
 @csrf_exempt
 def save(request):
-    train_id = request.POST['train']
-    train = Train.objects.get(id=train_id)
     clean_type = request.POST['clean_type']
     date_str = request.POST['date']
-    CleanRecords.objects.create(train=train, clean_front=(clean_type=="true"), clean_date=datetime.strptime(date_str, "%Y-%m-%d"))
+    print(date_str)
+    train_id_list = request.POST.getlist('train')
+    for train_id in train_id_list:
+        train = Train.objects.get(id=train_id)
+        CleanRecords.objects.create(train=train, clean_front=(clean_type=="true"), clean_date=datetime.strptime(date_str, "%Y-%m-%d"))
     return render(request, 'train_clean/success.html')

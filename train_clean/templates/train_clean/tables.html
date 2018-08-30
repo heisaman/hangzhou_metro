@@ -15,19 +15,28 @@
   <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <!-- CSS Files -->
   <link href="{% static 'train_clean/css/bootstrap.min.css' %}" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+  <link href="{% static 'train_clean/css/chosen.min.css' %}" rel="stylesheet" />
   <link href="{% static 'train_clean/css/now-ui-dashboard.css' %}" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{% static 'train_clean/demo/demo.css' %}" rel="stylesheet" />
   <script src="{% static 'train_clean/js/core/jquery.min.js' %}"></script>
   <script>
     $(document).ready(function() {
+      $('#datepicker').datepicker({
+          format: 'yyyy-mm-dd',
+          uiLibrary: 'bootstrap4',
+          value: '{{ today }}'
+      });
       $( "#line" ).change(function() {
+        $("#train").chosen("destroy");
         $.post("{% url 'line_trains' %}", { line: this.value }, function(data) {
           console.log( data );
           $( "#train" ).find('option').remove();
           for(i=0;i<data.length;i++){
             $( "#train" ).append($("<option></option>").attr("value", data[i].id).text(data[i].number));
           }
+          $("#train").chosen();
         });
 
       });
@@ -47,7 +56,7 @@
           <i class="now-ui-icons transportation_bus-front-12"></i>
         </a>
         <a href="" class="simple-text logo-normal">
-          杭州轨道交通
+          杭州地铁
         </a>
       </div>
       <div class="sidebar-wrapper">
@@ -115,7 +124,7 @@
                     </div>
                     <div class="col-md-6">
                       <label>车体号</label>
-                      <select id="train" name="train" class="form-control form-control-lg">
+                      <select id="train" name="train" multiple class="form-control form-control-lg">
                         <option value="" disabled selected>选择车体号</option>
                       </select>
                     </div>
@@ -137,7 +146,7 @@
                   <div class="row mt-3">
                     <div class="col-md-6 pr-1">
                       <label>记录日期: </label>
-                      <input type="text" class="form-control-plaintext" name="date" readonly value="{{ today }}">
+                      <input id="datepicker" name="date" width="276">
                     </div>
                   </div>
                   <div class="row">
@@ -158,6 +167,8 @@
   <!--   Core JS Files   -->
   <script src="{% static 'train_clean/js/core/popper.min.js' %}"></script>
   <script src="{% static 'train_clean/js/core/bootstrap.min.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/js/gijgo.min.js" type="text/javascript"></script>
+  <script src="{% static 'train_clean/js/plugins/chosen.jquery.min.js' %}"></script>
   <script src="{% static 'train_clean/js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
   <!--  Notifications Plugin    -->
   <script src="{% static 'train_clean/js/plugins/bootstrap-notify.js' %}"></script>
